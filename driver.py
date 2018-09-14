@@ -16,7 +16,23 @@ from sklearn.svm import SVC
 
 def main():
     dataset = load_data()
-    print(dataset)
+    show_dataset_histogram(dataset)
+
+'''
+Creates plots of each quantifiable data column of the given dataset
+'''
+def show_dataset_plot(dataset):
+    # Plots the dataset on the plt library
+    dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
+    # Shows the plot of the plt library
+    plt.show()
+
+'''
+Creates histogram of each quantifiable data column in the dataset
+'''
+def show_dataset_histogram(dataset):
+    dataset.hist()
+    plt.show()
 
 '''
 Return data from the UCI Machine Learning repository
