@@ -16,7 +16,56 @@ from sklearn.svm import SVC
 
 def main():
     dataset = load_data()
-    show_dataset_histogram(dataset)
+
+    # Split dataset into the training data and the validation data
+    # We will use the training data to train our ML model and the
+    # validation data to see how the model fairs when trying to
+    array = dataset.values
+
+    # Data points of Flower size/dimensions (ex. sepal-length = flower leaf length)
+    flower_parameters = array[:,0:4]
+
+    # Array of answers to question: Given dimensions, what flower is it?
+    flower_answers = array[:,4]
+
+    # Want to use 80% of data we have to train model, 20% will be used to validate
+    validation_size = 0.20
+
+    # This will usually be randomly generated but we're going to hardcode it so we get the same results as the tutorial
+    seed = 7
+
+    # Splits the
+    fp_train, fp_validation, fa_train, fa_validation = model_selection.train_test_split(flower_parameters,
+                                                                                        flower_answers,
+                                                                                        test_size=validation_size,
+                                                                                        random_state=seed)
+
+    # Create Test harness
+    # We will be using a 10-fold cross validation
+    # The CV will partition the test data into segments (10 in this case) to model the data and
+    # (more on this soon)
+    scoring = 'accuracy'
+
+    # Spot Check Algorithms
+    # Add model types to our model array
+    models = []
+    models.append(('LR', LogisticRegression()))
+    models.append(('LDA', LinearDiscriminantAnalysis()))
+    models.append(('KNN', KNeighborsClassifier()))
+    models.append(('CART', DecisionTreeClassifier()))
+    models.append(('NB', GaussianNB()))
+    models.append(('SVM', SVC()))
+    # evaluate models in turn
+    results = []
+    names = []
+    # For each model, do the kfold, calculate the results, and append results to array
+    for name, model in models:
+        kfold = model_selection.KFold(n_splits=10, random_state=seed)
+        cv_results = model_selection.cross_val_score(model, fp_train, fa_train, cv=kfold, scoring=scoring)
+        results.append(cv_results)
+        names.append(name)
+        msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
+        print(msg)
 
 '''
 Creates plots of each quantifiable data column of the given dataset
@@ -32,6 +81,13 @@ Creates histogram of each quantifiable data column in the dataset
 '''
 def show_dataset_histogram(dataset):
     dataset.hist()
+    plt.show()
+
+'''
+Creates a scatter plot metrix of the given dataset
+'''
+def show_scatter_plot_matrix(dataset):
+    scatter_matrix(dataset)
     plt.show()
 
 '''
