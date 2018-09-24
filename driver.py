@@ -49,8 +49,21 @@ def main():
     # Spot Check Algorithms
     # Add model types to our model array
     models = []
+
+    # Linear Algorithms
+    # - Take a set number of inputs and create a linear relationship to model a correlation
+    # - Model based off how likely things occurred together in the past, second order linear models include information
+    #   about indirect relationships and can make inferences based off these co-occurences
+    # - Can perform a binary classification which tells if the output is positive or negative
+    # - Linear modeling cannot incorporate when the order of events matters (a -> b vs b -> a)
     models.append(('LR', LogisticRegression()))
     models.append(('LDA', LinearDiscriminantAnalysis()))
+
+    # Non-Linear Algorithms
+    # - Uses a non-linear model instead of a linear model which are more powerful but harder to train
+    # - More computationally intensive that linear
+    # - Allows for more complicated algorithms to be solved
+    # - Most problems can be solved by using linear and non-linear should be used on ones that can't (to save power)
     models.append(('KNN', KNeighborsClassifier()))
     models.append(('CART', DecisionTreeClassifier()))
     models.append(('NB', GaussianNB()))
