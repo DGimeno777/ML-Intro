@@ -80,33 +80,61 @@ def main():
         msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
         print(msg)
 
-'''
-Creates plots of each quantifiable data column of the given dataset
-'''
+    # Now choose model that got it correct the most
+
+
+def show_training_results(names, results):
+    """
+    Shows the results of the trained algorithms in a boxplot
+    :param names:
+    :param results:
+    :return:
+    """
+    # Make graph to compare algs
+    fig = plt.figure()
+    # Give graph a name
+    fig.suptitle('Algorithm Comparison')
+    # Add subplot with dimensions of 1x1 as first subplot
+    ax = fig.add_subplot(111)
+    # Create a boxplot from the training results
+    plt.boxplot(results)
+    # Sets x ticks to names of algorithms
+    ax.set_xticklabels(names)
+    # Show plot
+    plt.show()
+
 def show_dataset_plot(dataset):
+    """
+    Creates plots of each quantifiable data column of the given dataset
+    :param dataset: dataset to show the plot of
+    :return:
+    """
     # Plots the dataset on the plt library
     dataset.plot(kind='box', subplots=True, layout=(2,2), sharex=False, sharey=False)
     # Shows the plot of the plt library
     plt.show()
 
-'''
-Creates histogram of each quantifiable data column in the dataset
-'''
+
 def show_dataset_histogram(dataset):
+    """
+    Creates histogram of each quantifiable data column in the dataset
+    """
     dataset.hist()
     plt.show()
 
-'''
-Creates a scatter plot metrix of the given dataset
-'''
+
 def show_scatter_plot_matrix(dataset):
+    """
+    Creates a scatter plot metrix of the given dataset
+    """
     scatter_matrix(dataset)
     plt.show()
 
-'''
-Return data from the UCI Machine Learning repository
-'''
+
 def load_data():
+    """
+    Return data from the UCI Machine Learning repository
+    """
     # Location to load data from
     url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
     # Array of names of data columns to query from the database
