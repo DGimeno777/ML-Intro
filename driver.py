@@ -12,6 +12,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
+from _datetime import datetime
 
 
 def main():
@@ -80,7 +81,31 @@ def main():
         msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
         print(msg)
 
-    # Now choose model that got it correct the most
+    # Now choose model that had the best rate of success (ignoring stddev for the time being)
+    # This isn't ideal in a learning environment but it'll make the tutorial more interesting I think
+    best_model = models[0]
+    best_result= results[0].mean()
+    for ind, result in enumerate(results):
+        if result.mean() > best_result:
+            best_result = result.mean()
+            best_model = models[ind]
+
+    print("Using model type: %s" % (best_model[0]))
+
+    # Use chosen model
+    chosen_model = best_model[1]
+    chosen_model.fit(fp_train, fa_train)
+    predictions = chosen_model.predict(fp_validation)
+
+    # Print out how accurate the model we chose is
+    print(accuracy_score(fa_validation, predictions))
+
+    # Print out confusion matrix (incorrectly predicted answers) for algorithm
+    # Tells you what types of data the model is failing on and how to possibly improve training
+    print(confusion_matrix(fa_validation, predictions))
+
+    # Print out classification report (tells accuracy of each classifier used)
+    print(classification_report(fa_validation, predictions))
 
 
 def show_training_results(names, results):
