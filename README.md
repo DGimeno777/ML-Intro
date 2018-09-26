@@ -7,7 +7,6 @@ I'm using a beginner's guide [here](https://machinelearningmastery.com/machine-l
 ### Readings/Helpful Links:
 - [Linear vs. Non-Linear ML Algs](https://www.quora.com/Whats-the-difference-between-linear-and-non-linear-machine-learning-model)
 - [Confusion Matrix](https://machinelearningmastery.com/confusion-matrix-machine-learning/)
--
 
 ## Notes
 - Use Pandas's .describe() function to summarize dataset into count, mean, percentiles, and other stats
